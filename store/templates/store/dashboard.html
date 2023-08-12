@@ -1,0 +1,109 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+{% include 'store/status.html' %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <h5>Products:</h5>
+        <hr>
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href = "{% url 'add_product' %}" >Add Product</a>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Model</th>
+                        <th>Processor</th>
+                        <th>Memory</th>
+                        <th>Detail</th>
+                        <th>Category</th>
+                        <th>Digital</th>
+                        <th>Date_created</th>
+                    </tr>
+
+                    {% for product in products %}
+                    <tr>
+                        <th>{{product.name}}</th>
+                        <th>{{product.image}}</th>
+                        <th>{{product.price}}</th>
+                        <th>{{product.model}}</th>
+                        <th>{{product.processor}}</th>
+                        <th>{{product.memory}}</th>
+                        <th>{{product.detail}}</th>
+                        <th>{{product.category}}</th>
+                        <th>{{product.digital}}</th>
+                        <th>{{product.date_created}}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-3">
+        <h5>Customers:</h5>
+        <hr>
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href = "" >Create Customer</a>
+                <table class="table table-sm">
+                    <tr>
+                        <th></th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                    </tr>
+
+                    {% for customer in customers %}
+                        <tr>
+                            <td><a class="btn btn-sm btn-info" href = "{% url 'customer' customer.id %"}>View</a></td>
+                            <td>{{customer.name}}</td>
+                            <td>{{customer.phone}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+        </div>
+    </div>         
+    
+    <div class="col-md-7">
+        <h5>Last 5 Orders</h5>
+        <hr>
+        <div class="card card-body">
+            <a class="btn btn-primary btn-sm btn-block" href ="{% url 'create_order' %}">Create Order</a>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                        <th>Remove</th>
+                    </tr>
+
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{order.product}}</td>
+                            <td>{{order.date_ordered}}</td>
+                            <td>{{order.status}}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+
+                </thead>
+                
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

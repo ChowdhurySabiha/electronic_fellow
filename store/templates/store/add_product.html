@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h5>Add Product</h5>
+        <hr>
+        <div class="card card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

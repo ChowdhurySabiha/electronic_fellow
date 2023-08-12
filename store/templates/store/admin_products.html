@@ -1,0 +1,45 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+
+</br>
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <h5>Products</h5>
+            </div>
+            <div>
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Model</th>
+                        <th>Processor</th>
+                        <th>Memory</th>
+                        <th>Detail</th>
+                        <th>Category</th>
+                        <th>Digital</th>
+                    </tr>
+
+
+                    {% for product in products %}
+                        <tr>
+                            <td>{{product.name}}</td>
+                            <td>{{product.image}}</td>
+                            <td>{{product.price}}</td>
+                            <td>{{product.model}}</td>
+                            <td>{{product.processor}}</td>
+                            <td>{{product.memory}}</td>
+                            <td>{{product.detail}}</td>
+                            <td>{{product.category}}</td>
+                            <td>{{product.digital}}</td>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

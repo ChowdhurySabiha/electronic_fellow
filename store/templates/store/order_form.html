@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Create Order{% endblock %}
+
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md">
+        <div class="car card-body">
+
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form}}
+
+                <input type="submit" name="Submit">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
