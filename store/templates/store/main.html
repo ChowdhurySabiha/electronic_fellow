@@ -44,7 +44,7 @@
 		  <ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
 				<div class="dropdown">
-					<button class="dropbtn">Category</button>
+					<a class="dropbtn" href="#" style="color: white;">Category</a>
 					<div class="dropdown-content">
 					  <a href="{% url 'category' category='laptop' %}">Laptop</a>
 					  <a href="{% url 'category' category='PC' %}">PC</a>
@@ -56,20 +56,27 @@
 					  <a href="{% url 'category' category='software' %}">Software</a>
 					  <a href="{% url 'category' category='camera' %}">Camera</a>
 					  <a href="{% url 'category' category='TV' %}">TV</a>
+					  <a href="{% url 'category' category='watch' %}">Watch</a>
 					</div>
 				  </div>
 			</li>
-			<br\>
-			<li>
-				<div class="search-bar">
-					<input type="text" placeholder="Search products...">
-					<button type="submit">Search</button>
-				  </div>
-			</li>	
+			<br>			
 		  </ul>
+		  <div class= "nav-item active">
+			<a href = {% url 'subscribe' %}>Offer</a>
+		  </div>
 		  <div class="form-inline my-2 my-lg-0">
+			{% if request.user.is_authenticated %}
+			<div class="dropdown">
+				<a class="dropbtn" href="#" style="color: white;">{{request.user}}</a>
+				<div class="dropdown-content">
+				  <a href="{% url 'user_page' %}">Profile</a>
+				  <a href="{% url 'logout' %}">Logout</a>
+				</div>
+			</div>
+			{% else %}
 			<a href="{% url 'login' %}"class="btn btn-warning">Login</a>
-			
+			{% endif %}
 			<a href="{% url 'cart' %}">
 			   <img  id="cart-icon" src="{% static 'images/cart.png' %}">
 		   </a>

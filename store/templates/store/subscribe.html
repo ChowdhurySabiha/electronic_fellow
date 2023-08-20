@@ -1,0 +1,55 @@
+{% extends 'store/main.html' %}
+
+{% block title_block %}Offer{% endblock %}
+
+{% block styles %}
+<style>
+  .subscription-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Subscribe to a Package</h1>
+<form method="post">
+  {% csrf_token %}
+  <label for="plan">Choose a subscription plan:</label>
+  <select name="plan" id="plan">
+    {% for plan in subscription_plans %}
+      <option value="{{ plan.id }}">{{ plan.title }} - ${{ plan.price }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Subscribe</button>
+</form>
+{% endblock %}

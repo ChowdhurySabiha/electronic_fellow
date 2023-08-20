@@ -1,0 +1,26 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% include 'store/status.html' %}
+
+{% block title_block %}{{product.name}}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="img-big-wrap">
+            <a href="#"><img src="{{ product.image.url }}" style="width:450px"></a>
+        </div>
+        <div class="col-md-6">
+            <h2>{{product.name}}</h2>
+            <p>{{product.model}}</p>
+            <p>{{product.processor}}</p>
+            <p>{{product.memory}}</p>
+            <p>{{product.detail|linebreaks}}</p>
+            <p>$ {{product.price}}</p>
+            <button data-product={{product.pk}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
