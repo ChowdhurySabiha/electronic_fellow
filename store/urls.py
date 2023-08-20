@@ -8,9 +8,11 @@ urlpatterns = [
     path('login/', views.loginPage, name = "login"),
     path('logout/', views.logoutUser, name = 'logout'),
     path('registration/',views.registration, name = 'register'),
+    path('help-center/', views.help_center, name='help_center'),
 
     path('admin-panel/', views.home, name = 'dashboard'),
     path('admin-panel/products', views.products, name = 'products'),
+    path('admin-panel/products<str:pk>', views.admin_product_detail, name = 'admin_product_detail'),
     path('admin-panel/customer/<int:pk>', views.customer, name = 'customer'),
     path('admin-panel/create_order', views.createOrder, name = 'create_order'),
     path('admin-panel/update_order/<int:pk>', views.updateOrder, name = 'update_order'),
@@ -24,7 +26,7 @@ urlpatterns = [
 	path('', views.store, name="store"),
     path('products/<str:pk>', views.product_detail, name="product_detail"),
     path('<str:category>', views.category, name="category"),
-    
+
 	path('cart/', views.cart, name="cart"),
 	path('checkout/', views.checkout, name="checkout"),
     path('update_item/', views.updateItem, name="update_item"),

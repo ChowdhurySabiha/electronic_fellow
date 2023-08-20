@@ -11,6 +11,10 @@ class CustomerForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['user']
 
+class HelpForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    problem = forms.CharField(widget=forms.Textarea)
+
 class OrderForm(ModelForm):
     class Meta:
         model = Order

@@ -28,6 +28,7 @@
 
                     {% for product in products %}
                         <tr>
+                            <td><a class="btn btn-sm btn-info" href = "{% url 'admin_product_detail' product.id %}">View</a></td>
                             <td>{{product.name}}</td>
                             <td>{{product.image}}</td>
                             <td>{{product.price}}</td>

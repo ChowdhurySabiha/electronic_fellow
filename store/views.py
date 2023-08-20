@@ -7,7 +7,7 @@ from django.contrib import messages
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.http import JsonResponse
 from .models import *
-from .forms import OrderForm, ProductForm, CreateUserForm, CustomerForm
+from .forms import OrderForm, ProductForm, CreateUserForm, CustomerForm, HelpForm
 import json
 import datetime
 
@@ -90,6 +90,13 @@ def products(request):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
+def admin_product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'store/admin_product_detail.html', {'product': product})
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
 
@@ -105,7 +112,7 @@ def createOrder(request):
     
     form = OrderForm()
     if request.method == "POST":
-        # print(request.method)
+
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
@@ -164,8 +171,7 @@ def userPage(request):
     context = {'orders':orders, 'total_orders':total_orders, 'delivered':delivered, 'pending':pending}
     return render(request, 'store/customer.html', context)
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['customer'])
+@login_required
 def accountSettings(request):
     customer = request.user.customer
     form = CustomerForm(instance=customer)
@@ -198,9 +204,15 @@ def store(request):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    customer = request.user.customer
-    order, created = Order.objects.get_or_create(customer=customer, complete = False)
-    cartItems = order.get_cart_items
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete = False)
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        cartItems = order['get_cart_items']
+
     return render(request, 'store/product_detail.html', {'product': product, 'cartItems':cartItems})
 
 @login_required
@@ -221,8 +233,8 @@ def subscribe(request):
     return render(request, 'store/subscribe.html', context)
 
 def category(request, category):
+    products = Product.objects.filter(category = category)
     if request.user.is_authenticated:
-        products = Product.objects.filter(category = category)
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
         cartItems = order.get_cart_items
@@ -249,6 +261,34 @@ def cart(request):
 
     context = {'items':items, 'order':order, 'cartItems':cartItems}
     return render(request, 'store/cart.html', context)
+
+def help_center(request):
+    if request.method == 'POST':
+        form = HelpForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            problem = form.cleaned_data['problem']
+            is_valid_username = True
+
+            if is_valid_username:
+                Problem.objects.create(username=username, problem=problem)
+                return redirect('store')
+
+    else:
+        form = HelpForm()
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete = False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        cartItems = order['get_cart_items']
+
+
+    return render(request, 'store/help_center.html', {'form': form, 'items':items, 'order':order, 'cartItems':cartItems})
 
 @login_required
 def checkout(request):

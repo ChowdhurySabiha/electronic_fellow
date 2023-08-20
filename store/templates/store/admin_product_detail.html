@@ -1,4 +1,4 @@
-{% extends 'store/main.html' %}
+{% extends 'store/base.html' %}
 {% load static %}
 
 {% block title_block %}{{product.name}}{% endblock %}
@@ -17,7 +17,6 @@
             <p>{{product.detail|linebreaks}}</p>
             <p>$ {{product.price}}</p>
 
-            <button data-product={{product.pk}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
         </div>
     </div>
 </div>

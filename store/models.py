@@ -97,3 +97,10 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.address
     
+
+class Problem(models.Model):
+    username = models.CharField(max_length=100)
+    problem = models.TextField()
+
+    def __str__(self):
+        return f"{self.username}: {self.problem}"
