@@ -13,9 +13,9 @@ class SubscriptionPlan(models.Model):
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
-    email = models.EmailField(null = True)
+    email = models.EmailField(unique = True, null = True)
     phone = models.IntegerField(null=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(default = 'images/profile_pic1.webp',null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     subscription = models.ForeignKey(SubscriptionPlan, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -46,7 +46,7 @@ class Order(models.Model):
     )
 
     date_ordered = models.DateTimeField(auto_now_add=True, null=True)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null = True)
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null = True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null = True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     complete = models.BooleanField(default=False)

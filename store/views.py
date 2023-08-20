@@ -96,9 +96,6 @@ def customer(request, pk):
     orders = customer.order_set.all()
     order_count = orders.count()
 
-    # myFilter = OrderFilter(request.GET, queryset=orders)
-    # orders = myFilter.qs
-
     context = {'customer':customer, 'orders':orders, 'order_count':order_count}
     return render(request, 'store/admin_customer.html', context)
 
@@ -158,6 +155,7 @@ def add_product(request):
 @allowed_users(allowed_roles=['customer'])
 def userPage(request):
     orders = request.user.customer.order_set.all()
+    print(orders)
 
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
@@ -188,6 +186,7 @@ def store(request):
         order, created = Order.objects.get_or_create(customer=customer, complete = False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+    
     else:
         items = []
         order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
